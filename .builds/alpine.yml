@@ -1,0 +1,16 @@
+image: alpine/edge
+packages:
+  - gcc
+  - make
+  - pkgconf
+sources:
+  - https://github.com/silentbicycle/theft
+  - https://git.sr.ht/~aperezdc/dbuf
+tasks:
+  - deps: |
+      cd theft
+      git checkout v0.4.5
+      make PREFIX="$(pwd)/_prefix" install
+  - check: |
+      PKG_CONFIG_PATH="$(pwd)/theft/_prefix/lib/pkgconfig" \
+        make -C dbuf/test check
